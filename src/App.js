@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'; // Importing from react-router
+import { NavLink } from 'react-router-dom'; 
 
-function App() {
+import Home from './components/Home';
+import DataFetchComponent from './components/DataFetchComponent';
+import LoginForm from './components/LoginForm';
+import RegistrationForm from './components/RegistrationForm';
+
+const App = () => {
+  const [userId, setUserId] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+        <Switch>
+          <Route path="/login" component={LoginForm} />
+          <Route path="/registration" component={RegistrationForm} />
+          <Route path="/" exact render={(props) => <Home {...props} setUserId={setUserId} />} />
+          <Route path="/data-fetch" render={(props) => <DataFetchComponent {...props} userId={userId} />} />
+          <Redirect to="/" />
+        </Switch>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
